@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "19197865400",
+    "project_id": "bookretriever-80955",
+    "storage_bucket": "bookretriever-80955.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19197865400:android:8198844d2a59a3e233334d",
+        "android_client_info": {
+          "package_name": "com.example.bookretriever"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19197865400-1p2gl281slpj38418tsnejsob75815m2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKxlZNrYaAjehM_-FBoUJuHt3XmD2KRK4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19197865400-1p2gl281slpj38418tsnejsob75815m2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
