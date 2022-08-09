@@ -15,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class RegisterFragment : Fragment() {
@@ -97,14 +96,17 @@ class RegisterFragment : Fragment() {
                     //send verification link
                     val firebaseUser: FirebaseUser? = auth.currentUser
                     firebaseUser?.sendEmailVerification()?.addOnSuccessListener {
-
+                        Toast.makeText(
+                            requireContext(),
+                            "Verification link has been sent",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }?.addOnFailureListener {
-
+                        Log.d("TAG", "loginUser:onFailure:email not send " + it.message)
                     }
 
                     val user = User(name, email, password)
-                    //database reference
-                   databaseReference
+                    databaseReference
 //                        .child(email)
                         .child(FirebaseAuth.getInstance().currentUser!!.uid)
                         .child("user")

@@ -1,12 +1,16 @@
 package com.example.bookretriever.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.bookretriever.R
+import com.example.bookretriever.databinding.FragmentMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +27,9 @@ class MainFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentMainBinding
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -37,6 +44,31 @@ class MainFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentMainBinding.bind(view)
+
+        val user: FirebaseUser? = auth.currentUser
+
+        if (!user!!.isEmailVerified) {
+            binding.verifyButton.visibility = View.VISIBLE
+            binding.textEmailNotVerified.visibility = View.VISIBLE
+
+            binding.verifyButton.setOnClickListener {
+                user.sendEmailVerification().addOnSuccessListener {
+                    Toast.makeText(
+                        requireContext(),
+                        "The verification link has been resend",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }.addOnFailureListener {
+                    Log.d("TAG", "onViewCreated:onFailure:email not send " + it.message)
+                }
+            }
+        }
+
     }
 
     companion object {
