@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bookretriever.R
+import com.example.bookretriever.adapters.BookAdapter
 import com.example.bookretriever.databinding.FragmentMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -27,7 +29,10 @@ class MainFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var bookAdapter: BookAdapter
+
     private lateinit var binding: FragmentMainBinding
+
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,5 +91,13 @@ class MainFragment : Fragment() {
         FirebaseAuth.getInstance().signOut()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(com.google.android.material.R.id.container, LoginFragment())
+    }
+
+    private fun initRecyclerview() {
+        binding.recyclerviewBooks.apply {
+            layoutManager = GridLayoutManager(requireContext(), 3)
+//            bookAdapter = BookAdapter()
+            adapter = bookAdapter
+        }
     }
 }
