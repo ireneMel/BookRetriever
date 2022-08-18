@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bookretriever.R
 import com.example.bookretriever.databinding.BookItemBinding
-import com.example.bookretriever.models.Book
+import com.example.bookretriever.models.UIBook
 
-class BookAdapter : ListAdapter<Book, BookAdapter.BookViewHolder>(BookItemDiffCallBack()) {
+class BookAdapter : ListAdapter<UIBook, BookAdapter.BookViewHolder>(BookItemDiffCallBack()) {
 
     class BookViewHolder(val binding: BookItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -23,11 +23,11 @@ class BookAdapter : ListAdapter<Book, BookAdapter.BookViewHolder>(BookItemDiffCa
 //        fun onItemClick(itemView: View?, position: Int)
 //    }
 
-    private class BookItemDiffCallBack : DiffUtil.ItemCallback<Book>() {
-        override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean =
+    private class BookItemDiffCallBack : DiffUtil.ItemCallback<UIBook>() {
+        override fun areItemsTheSame(oldItem: UIBook, newItem: UIBook): Boolean =
             oldItem.coverI == newItem.coverI
 
-        override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean =
+        override fun areContentsTheSame(oldItem: UIBook, newItem: UIBook): Boolean =
             oldItem == newItem
     }
 
