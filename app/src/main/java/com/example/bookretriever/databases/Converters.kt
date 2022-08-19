@@ -17,14 +17,5 @@ class Converters {
     fun listToBook(book: String): List<Book> {
         return listOf(Gson().fromJson(book, Book::class.java))
     }
-//    fun bitmapToBytes(bitmap: Bitmap): ByteArray {
-//        val outputStream = ByteArrayOutputStream()
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-//        return outputStream.toByteArray()
-//    }
 
-//    @TypeConverter
-//    fun bytesToBitmap(byteArray: ByteArray): Bitmap {
-//        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-//    }
 }
