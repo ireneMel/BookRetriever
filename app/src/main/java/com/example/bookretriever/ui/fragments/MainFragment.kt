@@ -12,7 +12,6 @@ import com.example.bookretriever.R
 import com.example.bookretriever.adapters.BookAdapter
 import com.example.bookretriever.databinding.FragmentMainBinding
 import com.example.bookretriever.ui.viewmodels.MainViewModel
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +23,7 @@ class MainFragment : Fragment() {
 
     private lateinit var bookAdapter: BookAdapter
     private lateinit var binding: FragmentMainBinding
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+//    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,11 +71,5 @@ class MainFragment : Fragment() {
 //            }
 //        }
 
-    }
-
-    private fun logout() {
-        FirebaseAuth.getInstance().signOut()
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(com.google.android.material.R.id.container, LoginFragment())
     }
 }
