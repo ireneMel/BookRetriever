@@ -1,33 +1,42 @@
 {
   "project_info": {
-    "project_number": "19197865400",
-    "project_id": "bookretriever-80955",
-    "storage_bucket": "bookretriever-80955.appspot.com"
+    "project_number": "522032093478",
+    "firebase_url": "https://bookretriever-b1d9f-default-rtdb.firebaseio.com",
+    "project_id": "bookretriever-b1d9f",
+    "storage_bucket": "bookretriever-b1d9f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:19197865400:android:8198844d2a59a3e233334d",
+        "mobilesdk_app_id": "1:522032093478:android:cbb4f12c233ea06a3649e7",
         "android_client_info": {
           "package_name": "com.example.bookretriever"
         }
       },
       "oauth_client": [
         {
-          "client_id": "19197865400-1p2gl281slpj38418tsnejsob75815m2.apps.googleusercontent.com",
+          "client_id": "522032093478-f6caa8r9es2vp4cubo02b4ppcnmt1b13.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bookretriever",
+            "certificate_hash": "65ab6c4f50012f34aa1f5b09dd457f65ddc4ee65"
+          }
+        },
+        {
+          "client_id": "522032093478-bqb4g1m1sbthg7nmsp051qp3p67qtu8s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAKxlZNrYaAjehM_-FBoUJuHt3XmD2KRK4"
+          "current_key": "AIzaSyBascofxMgnFD6itX5z0ElGQCoW_7T89Ro"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "19197865400-1p2gl281slpj38418tsnejsob75815m2.apps.googleusercontent.com",
+              "client_id": "522032093478-bqb4g1m1sbthg7nmsp051qp3p67qtu8s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
