@@ -2,10 +2,9 @@ package com.example.bookretriever.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.bookretriever.BuildConfig
+import androidx.fragment.app.commit
 import com.example.bookretriever.R
-import com.example.bookretriever.ui.fragments.MainFragment
-import com.example.bookretriever.ui.fragments.RegisterFragment
+import com.example.bookretriever.ui.fragments.authorization.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 //String myApiKey = BuildConfig.API_KEY;
@@ -16,11 +15,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//       val a = BuildConfig.API_KEY
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, MainFragment())
-            .commit()
-
+        supportFragmentManager.commit {
+            replace(R.id.fragment_container, LoginFragment())
+        }
     }
 }
