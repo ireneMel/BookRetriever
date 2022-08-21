@@ -28,16 +28,21 @@ class LoginViewModel : ViewModel() {
     private val loginErrorEventChannel = Channel<LoginErrorEvent>()
     val errorEventFlow = loginErrorEventChannel.receiveAsFlow()
 
-    private val _state = MutableStateFlow<LoginUserState>(LoginUserState.Unknown)
+    private val _state =
+        if (repository.isUserVerified) MutableStateFlow<LoginUserState>(LoginUserState.Verified)
+        else MutableStateFlow<LoginUserState>(LoginUserState.Unknown)
     val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.userState.onEach {
                 when (it) {
-                    UserState.Unknown, UserState.NotVerified -> _state.value =
-                        LoginUserState.Unknown
                     UserState.Verified -> _state.value = LoginUserState.Verified
+                    UserState.Unknown -> _state.value = LoginUserState.Unknown
+                    UserState.NotVerified -> {
+                        _state.value = LoginUserState.Unknown
+                        loginErrorEventChannel.send(LoginErrorEvent.ErrorMessage("The email has not been verified"))
+                    }
                     is UserState.Error -> {
                         _state.value = LoginUserState.Error
                         loginErrorEventChannel.send(LoginErrorEvent.ErrorMessage(it.message))
