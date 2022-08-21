@@ -2,6 +2,7 @@ package com.example.bookretriever.ui.fragments.authorization
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +11,19 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.bookretriever.R
 import com.example.bookretriever.databinding.FragmentLoginBinding
 import com.example.bookretriever.ui.fragments.MainFragment
+import com.example.bookretriever.ui.viewmodels.authorization.LoginErrorEvent
 import com.example.bookretriever.ui.viewmodels.authorization.LoginUserState
 import com.example.bookretriever.ui.viewmodels.authorization.LoginViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
 class LoginFragment : Fragment() {
+
+    private val TAG = "Login Fragment"
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
@@ -40,8 +47,39 @@ class LoginFragment : Fragment() {
             }
 
             loginButton.setOnClickListener { loginUser() }
-
             forgotPassword.setOnClickListener { resetPassword() }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.errorEventFlow.collect { event ->
+                when (event) {
+                    is LoginErrorEvent.ErrorMessage -> {
+                        makeToast(event.message)
+                    }
+                }
+                binding.progressbarLogin.visibility = View.GONE
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.onEach {
+                when (it) {
+                    LoginUserState.Verified -> {
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, MainFragment()).commit()
+                    }
+                    LoginUserState.Unknown -> {
+
+                    }
+                    LoginUserState.Loading -> {
+                        binding.progressbarLogin.visibility = View.VISIBLE
+                    }
+
+                    LoginUserState.Error -> {
+
+                    }
+                }
+            }.collect()
         }
     }
 
@@ -50,20 +88,13 @@ class LoginFragment : Fragment() {
         val password = binding.passwordLogin.text.toString().trim()
 
         if (isDataValid(email, password)) {
-
+            Log.d(TAG, "loginUser: data valid")
             viewModel.login(email, password)
 
-            when (viewModel.state.value) {
-                LoginUserState.Verified -> {
-                    binding.progressbarLogin.visibility = View.VISIBLE
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, MainFragment())
-                }
-                LoginUserState.Unknown -> {
+            Log.d(TAG, "loginUser: logged")
 
-                }
-                else -> makeToast("No account is bound with this email. Try to register first.")
-            }
+            Log.d(TAG, "loginUser: state = ${viewModel.state.value}")
+
         }
     }
 
@@ -91,14 +122,14 @@ class LoginFragment : Fragment() {
         passwordResetDialog.setTitle("Reset password")
             .setMessage("Enter your email to receive reset link")
             .setView(resetMail)
-            .setPositiveButton("Yes") { _, _ ->
+            .setPositiveButton("Send") { _, _ ->
                 val isSuccessful = viewModel.resetPassword(resetMail.text.toString())
 
                 if (isSuccessful) {
                     makeToast("Reset link was sent to your email")
                 } else
                     makeToast("Error occurred")
-            }.setNegativeButton("No") { _, _ -> }.create().show()
+            }.setNegativeButton("Close") { _, _ -> }.create().show()
     }
 
     private fun makeToast(msg: String) {

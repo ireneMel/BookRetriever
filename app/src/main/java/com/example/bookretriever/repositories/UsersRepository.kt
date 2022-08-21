@@ -14,6 +14,7 @@ sealed class UserState {
     object NotVerified : UserState()
     object Verified : UserState()
     object Unknown : UserState()
+    data class Error(val message: String) : UserState()
 }
 
 class UsersRepository {
@@ -25,14 +26,16 @@ class UsersRepository {
     val userState = _userState.asStateFlow()
 
     private val _auth = Firebase.auth
-
-    //    val auth = _auth
     private val databaseReference = FirebaseDatabase.getInstance().reference
 
     //change state flow according to the result of sign in action
     suspend fun logInUser(email: String, password: String) =
         suspendCoroutine { continuation ->
             _auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    _userState.value = UserState.Error(it.exception?.message.toString())
+                    return@addOnCompleteListener
+                }
                 val userVerified = it.result.user?.isEmailVerified == true
 
                 _userState.value = if (userVerified) UserState.Verified else UserState.NotVerified
@@ -45,7 +48,7 @@ class UsersRepository {
         }
 
     suspend fun registerUser(name: String, email: String, password: String) =
-        suspendCoroutine<Boolean> {
+        suspendCoroutine {
             _auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val firebaseUser: FirebaseUser? = _auth.currentUser
@@ -61,9 +64,6 @@ class UsersRepository {
                     signOut()
                     it.resume(true)
 
-
-//                firebaseUser.reload()
-                    //register
 //                val user = User(name, email, password)
 //            `    databaseReference.child(email)
 //                    .child(firebaseUser.uid)
@@ -84,7 +84,6 @@ class UsersRepository {
 
                 } else {
                     Log.d(TAG, "Register state: failed\nException: ${task.exception}")
-                    //TODO error
                     it.resume(false)
                 }
             }
@@ -109,7 +108,7 @@ class UsersRepository {
         return wasReset
     }
 
-    fun signOut() {
+    private fun signOut() {
         _auth.signOut()
         _userState.value = UserState.Unknown
     }

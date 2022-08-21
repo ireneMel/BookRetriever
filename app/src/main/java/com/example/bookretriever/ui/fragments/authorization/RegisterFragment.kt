@@ -13,11 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.bookretriever.R
 import com.example.bookretriever.databinding.FragmentRegisterBinding
 import com.example.bookretriever.ui.fragments.MainFragment
+import com.example.bookretriever.ui.viewmodels.authorization.RegisterErrorEvent
 import com.example.bookretriever.ui.viewmodels.authorization.RegisterViewModel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
-
-//TODO what if an existing user tries to register
 
 class RegisterFragment : Fragment() {
 
@@ -28,18 +27,26 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRegisterBinding.bind(view)
 
+        binding.goToLogin.setOnClickListener {
+            goToFragment(LoginFragment())
+        }
+
         binding.registerButton.setOnClickListener {
             registerUser()
 
             lifecycleScope.launchWhenStarted {
-
                 viewModel.isComplete.filter { it }.first()
+                goToFragment(LoginFragment())
+            }
+        }
 
-                requireActivity().supportFragmentManager.commit {
-                    replace(
-                        R.id.fragment_container,
-                        LoginFragment()
-                    )
+        lifecycleScope.launchWhenStarted {
+            viewModel.errorEventFlow.collect { event ->
+                when (event) {
+                    is RegisterErrorEvent.ExistingUserMessage -> {
+                        makeToast("User with this email already exists.\nLog in")
+                        goToFragment(LoginFragment())
+                    }
                 }
             }
         }
@@ -59,11 +66,7 @@ class RegisterFragment : Fragment() {
         // Check if user is signed in (non-null)
         // if the current user is logged in show MainFragment
         if (viewModel.isComplete.value) {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragment_container,
-                    MainFragment()
-                ).commit()
+            goToFragment(MainFragment())
         }
     }
 
@@ -86,8 +89,7 @@ class RegisterFragment : Fragment() {
 
         if (viewModel.isComplete.value) {
             makeToast("You have been successfully registered")
-        } else
-            makeToast("Could not register a user")
+        }
     }
 
     private fun dataValid(name: String, email: String, password: String): Boolean {
@@ -114,6 +116,15 @@ class RegisterFragment : Fragment() {
             }
         }
         return true
+    }
+
+    private fun goToFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.commit {
+            replace(
+                R.id.fragment_container,
+                fragment
+            )
+        }
     }
 
     private fun makeToast(msg: String) {
