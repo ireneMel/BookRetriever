@@ -5,9 +5,6 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.bookretriever.R
@@ -15,10 +12,11 @@ import com.example.bookretriever.databinding.FragmentRegisterBinding
 import com.example.bookretriever.ui.fragments.MainFragment
 import com.example.bookretriever.ui.viewmodels.authorization.RegisterErrorEvent
 import com.example.bookretriever.ui.viewmodels.authorization.RegisterViewModel
+import com.example.bookretriever.utils.GeneralFragment
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : GeneralFragment() {
 
     private lateinit var binding: FragmentRegisterBinding
     private val viewModel: RegisterViewModel by viewModels()
@@ -65,9 +63,8 @@ class RegisterFragment : Fragment() {
         super.onStart()
         // Check if user is signed in (non-null)
         // if the current user is logged in show MainFragment
-        if (viewModel.isComplete.value) {
+        if (viewModel.isComplete.value)
             goToFragment(MainFragment())
-        }
     }
 
     private fun registerUser() {
@@ -75,8 +72,7 @@ class RegisterFragment : Fragment() {
         val email = binding.emailRegister.text.toString().trim()
         val password = binding.passwordRegister.text.toString().trim()
 
-        if (dataValid(name, email, password))
-            register()
+        if (dataValid(name, email, password)) register()
     }
 
     private fun register() {
@@ -116,22 +112,5 @@ class RegisterFragment : Fragment() {
             }
         }
         return true
-    }
-
-    private fun goToFragment(fragment: Fragment) {
-        requireActivity().supportFragmentManager.commit {
-            replace(
-                R.id.fragment_container,
-                fragment
-            )
-        }
-    }
-
-    private fun makeToast(msg: String) {
-        Toast.makeText(
-            requireContext(),
-            msg,
-            Toast.LENGTH_SHORT
-        ).show()
     }
 }
