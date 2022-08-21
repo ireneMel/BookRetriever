@@ -28,7 +28,7 @@ class BooksRepository @Inject constructor(
                 Book(
                     it.isbn,
                     it.title,
-                    it.authorName[0],
+                    it.authorName?.get(0) ?: "unknown",
                     it.cover_i
                 )
             }
