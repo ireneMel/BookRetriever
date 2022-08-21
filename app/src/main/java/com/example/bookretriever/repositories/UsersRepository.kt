@@ -28,6 +28,14 @@ class UsersRepository {
     private val _auth = Firebase.auth
     private val databaseReference = FirebaseDatabase.getInstance().reference
 
+    var isUserVerified = false
+        private set
+
+    init {
+        if (_auth.currentUser != null)
+            isUserVerified = _auth.currentUser!!.isEmailVerified
+    }
+
     //change state flow according to the result of sign in action
     suspend fun logInUser(email: String, password: String) =
         suspendCoroutine { continuation ->
@@ -36,13 +44,14 @@ class UsersRepository {
                     _userState.value = UserState.Error(it.exception?.message.toString())
                     return@addOnCompleteListener
                 }
-                val userVerified = it.result.user?.isEmailVerified == true
 
-                _userState.value = if (userVerified) UserState.Verified else UserState.NotVerified
-                continuation.resume(userVerified)
+                isUserVerified = it.result.user?.isEmailVerified == true
+
+                _userState.value = if (isUserVerified) UserState.Verified else UserState.NotVerified
+                continuation.resume(isUserVerified)
                 Log.d(
                     TAG,
-                    "Login state: $userVerified"
+                    "Login state: $isUserVerified"
                 )
             }
         }
@@ -99,12 +108,12 @@ class UsersRepository {
 
     fun resetPassword(resetMail: String): Boolean {
         var wasReset = false
-//        _auth.sendPasswordResetEmail(resetMail).addOnSuccessListener {
-//            Log.d(TAG, "resetPassword state: success")
-//            wasReset = true
-//        }.addOnFailureListener {
-//            Log.d(TAG, "resetPassword state: fail\nMessage: ${it.message}")
-//        }
+        _auth.sendPasswordResetEmail(resetMail).addOnSuccessListener {
+            Log.d(TAG, "resetPassword state: success")
+            wasReset = true
+        }.addOnFailureListener {
+            Log.d(TAG, "resetPassword state: fail\nMessage: ${it.message}")
+        }
         return wasReset
     }
 
