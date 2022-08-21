@@ -23,7 +23,6 @@ class MainFragment : Fragment() {
 
     private lateinit var bookAdapter: BookAdapter
     private lateinit var binding: FragmentMainBinding
-//    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,26 +49,5 @@ class MainFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.uiBookList.onEach { bookAdapter.submitList(it) }.collect()
         }
-
-
-//        val user: FirebaseUser? = auth.currentUser
-//
-//        if (!user!!.isEmailVerified) {
-//            binding.verifyButton.visibility = View.VISIBLE
-//            binding.textEmailNotVerified.visibility = View.VISIBLE
-//
-//            binding.verifyButton.setOnClickListener {
-//                user.sendEmailVerification().addOnSuccessListener {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "The verification link has been resend",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }.addOnFailureListener {
-//                    Log.d("TAG", "onViewCreated:onFailure:email not send " + it.message)
-//                }
-//            }
-//        }
-
     }
 }
