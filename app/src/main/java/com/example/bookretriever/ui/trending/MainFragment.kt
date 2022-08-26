@@ -1,4 +1,4 @@
-package com.example.bookretriever.ui.fragments
+package com.example.bookretriever.ui.trending
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookretriever.R
 import com.example.bookretriever.adapters.BookAdapter
 import com.example.bookretriever.databinding.FragmentMainBinding
-import com.example.bookretriever.ui.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -36,15 +36,13 @@ class MainFragment : Fragment() {
         binding = FragmentMainBinding.bind(view)
 
         bookAdapter = BookAdapter()
-//        bookAdapter.setOnClickListener(BookAdapter.OnItemClickListener {
-//
-//            //open detailed activity
-//        })
 
         binding.recyclerviewBooks.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = LinearLayoutManager(requireContext())
             adapter = bookAdapter
         }
+
+//        bookAdapter.notifyItemChanged(2, "s")
 
         lifecycleScope.launch {
             viewModel.uiBookList.onEach { bookAdapter.submitList(it) }.collect()

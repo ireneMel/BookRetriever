@@ -1,7 +1,9 @@
-package com.example.bookretriever.databases.dao
+package com.example.bookretriever.databases.trending
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
 import com.example.bookretriever.models.BookEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -14,8 +16,9 @@ interface BooksDao {
     @Insert(onConflict = REPLACE)
     suspend fun insert(bookEntity: BookEntity)
 
+    @Query("DELETE FROM books")
+    fun deleteAll()
+
     @Query("SELECT * FROM books")
     fun getTrendingBooks(): Flow<List<BookEntity>>
-
-
 }

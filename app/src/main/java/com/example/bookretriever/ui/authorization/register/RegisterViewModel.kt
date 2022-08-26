@@ -1,4 +1,4 @@
-package com.example.bookretriever.ui.viewmodels.authorization
+package com.example.bookretriever.ui.authorization.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

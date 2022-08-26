@@ -1,4 +1,4 @@
-package com.example.bookretriever.ui.fragments.authorization
+package com.example.bookretriever.ui.authorization.login
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -10,12 +10,9 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.bookretriever.R
 import com.example.bookretriever.databinding.FragmentLoginBinding
-import com.example.bookretriever.ui.fragments.MainFragment
-import com.example.bookretriever.ui.viewmodels.authorization.LoginErrorEvent
-import com.example.bookretriever.ui.viewmodels.authorization.LoginUserState
-import com.example.bookretriever.ui.viewmodels.authorization.LoginViewModel
 import com.example.bookretriever.utils.GeneralFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -32,7 +29,7 @@ class LoginFragment : GeneralFragment() {
             viewModel.state.onEach {
                 when (it) {
                     LoginUserState.Verified -> {
-                        goToFragment(MainFragment())
+                        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                     }
                     LoginUserState.Loading -> {
                         binding.progressbarLogin.visibility = View.VISIBLE
@@ -59,7 +56,9 @@ class LoginFragment : GeneralFragment() {
         binding = FragmentLoginBinding.bind(view)
 
         with(binding) {
-            register.setOnClickListener { goToFragment(RegisterFragment()) }
+            register.setOnClickListener {
+                findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+            }
             loginButton.setOnClickListener { loginUser() }
             forgotPassword.setOnClickListener { resetPassword() }
         }

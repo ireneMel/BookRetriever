@@ -1,4 +1,4 @@
-package com.example.bookretriever.ui.fragments.authorization
+package com.example.bookretriever.ui.authorization.register
 
 import android.os.Bundle
 import android.util.Patterns
@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.bookretriever.R
 import com.example.bookretriever.databinding.FragmentRegisterBinding
-import com.example.bookretriever.ui.fragments.MainFragment
-import com.example.bookretriever.ui.viewmodels.authorization.RegisterErrorEvent
-import com.example.bookretriever.ui.viewmodels.authorization.RegisterViewModel
 import com.example.bookretriever.utils.GeneralFragment
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -26,7 +24,7 @@ class RegisterFragment : GeneralFragment() {
         binding = FragmentRegisterBinding.bind(view)
 
         binding.goToLogin.setOnClickListener {
-            goToFragment(LoginFragment())
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         binding.registerButton.setOnClickListener {
@@ -34,7 +32,7 @@ class RegisterFragment : GeneralFragment() {
 
             lifecycleScope.launchWhenStarted {
                 viewModel.isComplete.filter { it }.first()
-                goToFragment(LoginFragment())
+                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
             }
         }
 
@@ -43,7 +41,7 @@ class RegisterFragment : GeneralFragment() {
                 when (event) {
                     is RegisterErrorEvent.ExistingUserMessage -> {
                         makeToast("User with this email already exists.\nLog in")
-                        goToFragment(LoginFragment())
+                        findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                     }
                 }
             }
@@ -59,12 +57,14 @@ class RegisterFragment : GeneralFragment() {
     }
 
 
+    //TODO does this method influence the behavior?
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null)
         // if the current user is logged in show MainFragment
-        if (viewModel.isComplete.value)
-            goToFragment(MainFragment())
+//        if (viewModel.isComplete.value)
+//            findNavController().navigate(R.id.ac)
+//            goToFragment(MainFragment())
     }
 
     private fun registerUser() {

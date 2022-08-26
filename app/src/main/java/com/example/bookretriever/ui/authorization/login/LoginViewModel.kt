@@ -1,4 +1,4 @@
-package com.example.bookretriever.ui.viewmodels.authorization
+package com.example.bookretriever.ui.authorization.login
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

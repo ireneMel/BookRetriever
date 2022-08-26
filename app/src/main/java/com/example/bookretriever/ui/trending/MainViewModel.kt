@@ -1,11 +1,13 @@
-package com.example.bookretriever.ui.viewmodels
+package com.example.bookretriever.ui.trending
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookretriever.models.Book
 import com.example.bookretriever.models.UIBook
 import com.example.bookretriever.repositories.BooksRepository
+import com.example.bookretriever.repositories.ShelfRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,17 +17,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val booksRepository: BooksRepository
+    private val booksRepository: BooksRepository,
+    private val favoritesRepository: ShelfRepository
 ) : ViewModel() {
 
-    //    private val booksRepository = BooksRepository()
     private val _uiBookList = MutableStateFlow(emptyList<UIBook>())
     val uiBookList = _uiBookList.asStateFlow()
-
-//    lateinit var trendingBooks: Response<BookResponse>
-//    val trendingBooksCached = booksRepository.getTrendingBooksCached()
-
-//    private val client = booksRepository.retrofit
 
     init {
         fetchBooks()
@@ -44,11 +41,27 @@ class MainViewModel @Inject constructor(
             UIBook(
                 book.title,
                 book.author,
-                book.coverI
-            ) {
-                Log.d("TAG", "mapResponseToUI: the item was clicked")
-            }
+                book.coverI,
+                {
+                    Log.d("MainViewModel", "mapResponseToUI: clicked")
+                    addToFavorites(book)
+                },
+                {
+                    Log.d("MainViewModel", "mapResponseToUI: long clicked")
+                    showDetailedInfo(book)
+                }
+            )
         }
+
+    private fun showDetailedInfo(book: Book) {
+
+    }
+
+    private fun addToFavorites(book: Book) {
+        viewModelScope.launch {
+            favoritesRepository.insert(book)
+        }
+    }
 
 //    fun fetchBooksByName(query: String) {
 //        viewModelScope.launch {
