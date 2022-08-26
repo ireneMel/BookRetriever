@@ -4,7 +4,8 @@ data class UIBook(
     var title: String? = null,
     var author: String? = null,
     val coverI: String? = null,
-    val onClick: () -> Unit
+    val onClick: () -> Unit,
+    val onLongClick: () -> Unit
 ) {
     // Get medium sized book cover from covers API
     val coverUrl: String
