@@ -3,20 +3,20 @@ package com.example.bookretriever.models.json
 import com.google.gson.annotations.SerializedName
 
 data class BookResponse(
-//    val Q: String,
     val works: List<DocsItemBook>,
-//    val numFound: Int,
-//    val start: Int,
-//    val numFoundExact: Boolean
 )
 
 data class DocsItemBook(
-    val title: String,
+    val isbn: String?,
     @SerializedName("author_name")
     val authorName: List<String>,
-//    @SerializedName("edition_key")
-//    val editionKey: List<String>,
-    val isbn: String?,
-    val cover_i: String?
+    val title: String,
+    @SerializedName("first_publish_year")
+    val firstPublishedYear: Int,
+    val cover_i: String?,
+    @SerializedName("has_fulltext")
+    val hasFullText: Boolean,
+    //for filter - genres
+    val subject: List<String>?
 )
 
