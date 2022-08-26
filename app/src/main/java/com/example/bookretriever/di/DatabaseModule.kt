@@ -2,19 +2,17 @@ package com.example.bookretriever.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.bookretriever.databases.BooksDatabase
 import com.example.bookretriever.databases.Converters
-import com.example.bookretriever.databases.dao.BooksDao
-import com.example.bookretriever.net.IBookClient
-import com.example.bookretriever.utils.Constants
+import com.example.bookretriever.databases.shelf.ShelfConverters
+import com.example.bookretriever.databases.shelf.ShelfDao
+import com.example.bookretriever.databases.shelf.ShelfDatabase
+import com.example.bookretriever.databases.trending.BooksDao
+import com.example.bookretriever.databases.trending.BooksDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -24,17 +22,32 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDao(database: BooksDatabase): BooksDao = database.getDao()
+    fun provideBooksDao(database: BooksDatabase): BooksDao = database.getDao()
 
     @Provides
     @Singleton
-    fun provideDatabase(
+    fun provideBooksDatabase(
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(
         context,
         BooksDatabase::class.java,
         "books_database"
-    ).addTypeConverter(Converters())
+    ).addTypeConverter(Converters()).fallbackToDestructiveMigration()
         .build()
 
+    @Provides
+    @Singleton
+    fun provideShelfDao(database: ShelfDatabase): ShelfDao = database.getDao()
+
+    @Provides
+    @Singleton
+    fun provideShelfDatabase(
+        @ApplicationContext context: Context
+    ) = Room.databaseBuilder(
+        context,
+        ShelfDatabase::class.java,
+        "shelf_database"
+    ).fallbackToDestructiveMigration()
+//        .addTypeConverter(ShelfConverters())
+        .build()
 }
