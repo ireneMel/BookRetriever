@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/shelveFragment"
-        android:icon="@drawable/ic_person"
-        android:title="Profile" />
+        android:id="@+id/shelfFragment"
+        android:icon="@drawable/ic_favorite_pressed"
+        android:title="Favourites" />
 
     <item
         android:id="@+id/mainFragment"
@@ -12,8 +12,8 @@
         android:title="Trending" />
 
     <item
-        android:id="@+id/categoryFragment"
-        android:icon="@drawable/ic_category"
-        android:title="Category" />
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_person"
+        android:title="Profile" />
 
 </menu>
