@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bookretriever.UIState
 import com.example.bookretriever.databinding.BookItemBinding
 import com.example.bookretriever.models.UIBook
 
@@ -50,21 +51,18 @@ class BookAdapter : ListAdapter<UIBook, BookAdapter.BookViewHolder>(BookItemDiff
             bookTitle.text = item.title
             bookAuthor.text = item.author
 
+            favourite.setUIState(if(item.isLiked()) UIState.Like else UIState.Unlike, false)
+
+
             detailedInfoButton.setOnClickListener {
                 item.onLongClick()
             }
 
-            //TODO crop out the button for this listener
             bookItemContainer.setOnClickListener {
                 Log.d("Book Adapter", "onBindViewHolder: clicked")
                 item.onClick()
+                favourite.setUIState(if(item.isLiked()) UIState.Like else UIState.Unlike, true)
             }
-
-
-//            Glide.with(bookItemContainer.context)
-//                .load(item.coverUrl)
-//                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-//                .placeholder(R.drawable.ic_launcher_foreground)
 
             Constant.getGlide(bookItemContainer, item.coverUrl).into(bookImage)
         }
