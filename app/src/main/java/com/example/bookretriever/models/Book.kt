@@ -14,8 +14,8 @@ data class Book(
     val firstPublishedYear: Int,
     var coverI: String? = null,
     val hasFullText: Boolean?,
-    var categories: String? = null
-//    var categories: List<String>? = null
+    var categories: String? = null,
+    var isLiked: Boolean = false
 ) {
     // Get medium sized book cover from covers API
     val coverUrl: String

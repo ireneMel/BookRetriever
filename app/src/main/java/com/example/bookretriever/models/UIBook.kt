@@ -1,11 +1,14 @@
 package com.example.bookretriever.models
 
+import kotlinx.coroutines.flow.StateFlow
+
 data class UIBook(
     var title: String? = null,
     var author: String? = null,
     val coverI: String? = null,
     val onClick: () -> Unit,
-    val onLongClick: () -> Unit
+    val onLongClick: () -> Unit,
+    var isLiked: () -> Boolean
 ) {
     // Get medium sized book cover from covers API
     val coverUrl: String
