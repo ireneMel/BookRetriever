@@ -7,15 +7,15 @@ data class BookResponse(
 )
 
 data class DocsItemBook(
-    val isbn: String?,
+//    val isbn: String?,
     @SerializedName("author_name")
     val authorName: List<String>,
     val title: String,
-    @SerializedName("first_publish_year")
-    val firstPublishedYear: Int,
+//    @SerializedName("first_publish_year")
+//    val firstPublishedYear: Int,
     val cover_i: String?,
-    @SerializedName("has_fulltext")
-    val hasFullText: Boolean,
+//    @SerializedName("has_fulltext")
+//    val hasFullText: Boolean,
     //for filter - genres
     val subject: List<String>?
 )

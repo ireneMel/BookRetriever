@@ -12,27 +12,27 @@ class BooksRepository @Inject constructor(
     private val bookDao: BooksDao,
     private val retrofit: IBookClient
 ) {
-    suspend fun getTrendingBooks(): BookEntity? {
+    suspend fun getTrendingBooks(page: Int, pageSize: Int): BookEntity? {
         val first: BookEntity? = bookDao.getTrendingBooks().first().firstOrNull()
         val isCacheExpired = System.currentTimeMillis() - (first?.timeInMillis ?: 0) > DELTA
         if (first == null || isCacheExpired) {
             bookDao.deleteAll()
             //if there is no appropriate data in the database - the request to the server is sent
             //retrieved data has to be saved
-            val response = retrofit.getTrendingBooks()//.body()
+            val response = retrofit.getTrendingBooks(page, pageSize)
 
             if (!response.isSuccessful) return null
             val bookResponse = response.body() ?: return null
 
             val list = bookResponse.works.map {
                 Book(
-                    it.isbn,
+//                    it.isbn,
                     listToString(it.authorName),
                     it.title,
-                    2002,
+//                    2002,
                     it.cover_i ?: "",
                     false,
-                    ""
+//                    ""
                 )
             }
             val finalEntity = BookEntity(System.currentTimeMillis(), list)

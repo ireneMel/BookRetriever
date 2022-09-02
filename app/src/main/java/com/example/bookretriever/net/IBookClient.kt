@@ -20,5 +20,5 @@ interface IBookClient {
     ): Response<BookResponse>
 
     @GET("/trending/daily.json")
-    suspend fun getTrendingBooks(): Response<BookResponse>
+    suspend fun getTrendingBooks(@Query("page") page: Int, @Query("limit") pageSize: Int): Response<BookResponse>
 }

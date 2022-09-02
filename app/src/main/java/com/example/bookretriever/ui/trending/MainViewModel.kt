@@ -3,16 +3,20 @@ package com.example.bookretriever.ui.trending
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.*
 import com.example.bookretriever.models.Book
 import com.example.bookretriever.models.UIBook
+import com.example.bookretriever.paging.BookPagingSource
 import com.example.bookretriever.repositories.BooksRepository
 import com.example.bookretriever.repositories.ShelfRepository
+import com.example.bookretriever.utils.Constants.QUERY_LIMIT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.lang.Boolean
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,17 +28,50 @@ class MainViewModel @Inject constructor(
     private val _uiBookList = MutableStateFlow(emptyList<UIBook>())
     val uiBookList = _uiBookList.asStateFlow()
 
-    init {
-        fetchBooks()
-    }
+//    init {
+//        fetchBooks()
+//    }
 
-    private fun fetchBooks() =
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = booksRepository.getTrendingBooks()
-            if (response?.response != null)
-                _uiBookList.value = mapResponseToUI(response.response)
+//    private fun fetchBooks() =
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val response = booksRepository.getTrendingBooks()
+//            if (response?.response != null)
+//                _uiBookList.value = mapResponseToUI(response.response)
 //            else //error
-        }
+//        }
+
+    fun fetchPagedBooks(): Flow<PagingData<UIBook>> {
+        return Pager(
+            PagingConfig(
+                pageSize = QUERY_LIMIT,
+                prefetchDistance = 3,
+                enablePlaceholders = false,
+                initialLoadSize = QUERY_LIMIT * 2,
+                maxSize = 100
+            ),
+            1
+        ) {
+            BookPagingSource(booksRepository)
+        }.flow.map {
+            it.map { book ->
+                book.isLiked = favoritesRepository.getBook(book.title)?.isLiked ?: false
+                UIBook(
+                    book.title,
+                    book.author,
+                    book.coverI,
+                    {
+                        Log.d("MainViewModel", "mapResponseToUI: clicked")
+                        addToFavorites(book)
+                    },
+                    {
+                        Log.d("MainViewModel", "mapResponseToUI: long clicked")
+                        showDetailedInfo(book)
+                    },
+                    book::isLiked
+                )
+            }
+        }.cachedIn(viewModelScope)
+    }
 
     private suspend fun mapResponseToUI(response: List<Book>) =
         response.map { book ->
