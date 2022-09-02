@@ -29,5 +29,4 @@ class ShelfViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             favoritesRepository.getAllBooks().onEach { _uiBookList.value = it }.collect()
         }
-
 }

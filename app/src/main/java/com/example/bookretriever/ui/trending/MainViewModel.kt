@@ -1,7 +1,6 @@
 package com.example.bookretriever.ui.trending
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookretriever.models.Book
@@ -13,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.lang.Boolean
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,8 +36,9 @@ class MainViewModel @Inject constructor(
 //            else //error
         }
 
-    private fun mapResponseToUI(response: List<Book>) =
+    private suspend fun mapResponseToUI(response: List<Book>) =
         response.map { book ->
+            book.isLiked = favoritesRepository.getBook(book.title)?.isLiked ?: false
             UIBook(
                 book.title,
                 book.author,
@@ -49,7 +50,8 @@ class MainViewModel @Inject constructor(
                 {
                     Log.d("MainViewModel", "mapResponseToUI: long clicked")
                     showDetailedInfo(book)
-                }
+                },
+                book::isLiked
             )
         }
 
@@ -59,7 +61,11 @@ class MainViewModel @Inject constructor(
 
     private fun addToFavorites(book: Book) {
         viewModelScope.launch {
-            favoritesRepository.insert(book)
+            book.isLiked = !book.isLiked
+            if (book.isLiked)
+                favoritesRepository.insert(book)
+            else
+                favoritesRepository.delete(book)
         }
     }
 

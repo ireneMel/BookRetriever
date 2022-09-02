@@ -7,7 +7,7 @@ import com.example.bookretriever.databases.Converters
 import com.example.bookretriever.models.Book
 import com.example.bookretriever.models.BookEntity
 
-@Database(entities = [Book::class], version = 5, exportSchema = false)
+@Database(entities = [Book::class], version = 6, exportSchema = false)
 //@TypeConverters(ShelfConverters::class)
 abstract class ShelfDatabase : RoomDatabase() {
     abstract fun getDao(): ShelfDao

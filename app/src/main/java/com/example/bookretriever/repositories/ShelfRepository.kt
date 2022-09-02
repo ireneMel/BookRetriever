@@ -10,5 +10,7 @@ class ShelfRepository @Inject constructor(
 ) {
     suspend fun insert(book: Book) = dao.insert(book)
     fun getAllBooks(): Flow<List<Book>> = dao.getAllBooks()
+    suspend fun getBook(title: String) = dao.getBook(title)
     suspend fun deleteAll() = dao.deleteAll()
+    suspend fun delete(book: Book) = dao.delete(book)
 }

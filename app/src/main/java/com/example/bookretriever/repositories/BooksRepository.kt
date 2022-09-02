@@ -38,22 +38,19 @@ class BooksRepository @Inject constructor(
             val finalEntity = BookEntity(System.currentTimeMillis(), list)
             bookDao.insert(finalEntity)
             return finalEntity
-
         } else {
             //if database contains needed data - get and show it
             return first
         }
     }
 
-    private fun listToString(authors: List<String>): String {
+    private fun listToString(authors: List<String>?): String {
         var res = ""
+        if(authors == null) return res
         for (author in 0..authors.size - 2) {
             res += "$author, "
         }
         res += authors[authors.size - 1]
         return res
     }
-
-//    fun getBooksByTitleCached(title: String) = bookDao.getBookByTitle(title)
-//    fun getTrendingBooksCached() = bookDao.getTrendingBooks()
 }
