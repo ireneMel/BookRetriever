@@ -2,4 +2,5 @@
     <string name="app_name">BookRetriever</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email_has_not_been_verified">Email has not been verified</string>
+    <string name="retry">Retry</string>
 </resources>
