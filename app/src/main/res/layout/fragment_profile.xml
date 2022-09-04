@@ -7,10 +7,10 @@
     tools:context=".ui.profile.ProfileFragment">
 
     <androidx.cardview.widget.CardView
+        android:layout_marginTop="32dp"
         android:id="@+id/profile_image_container"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_margin="5dp"
         android:elevation="10dp"
         app:cardCornerRadius="120dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,41 +18,63 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:clickable="true"
             android:id="@+id/roundedImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background" />
+            android:background="@color/purple_200"
+            android:scaleType="centerCrop" />
+
     </androidx.cardview.widget.CardView>
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/email"
+        android:layout_marginTop="32dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_image_container" />
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clickable="true"
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:drawableLeft="@drawable/ic_logout"
+        android:text="Log out"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-<!--    <TextView-->
-<!--        android:id="@+id/change_profile"-->
-<!--        android:layout_width="120dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_marginTop="32dp"-->
-<!--        android:background="@drawable/button_1"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        android:gravity="center"-->
-<!--        android:letterSpacing="0.3"-->
-<!--        android:text="LOG  IN"-->
-<!--        android:textColor="?colorOnPrimary"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/password_login" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/change_profile"-->
+    <!--        android:layout_width="120dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:layout_marginTop="32dp"-->
+    <!--        android:background="@drawable/button_1"-->
+    <!--        android:clickable="true"-->
+    <!--        android:focusable="true"-->
+    <!--        android:gravity="center"-->
+    <!--        android:letterSpacing="0.3"-->
+    <!--        android:text="LOG  IN"-->
+    <!--        android:textColor="?colorOnPrimary"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/password_login" />-->
 
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="8dp"-->
-<!--        android:text="Change profile information"-->
-<!--        android:textSize="15dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/profile_image_container" />-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_margin="8dp"-->
+    <!--        android:text="Change profile information"-->
+    <!--        android:textSize="15dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/profile_image_container" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
