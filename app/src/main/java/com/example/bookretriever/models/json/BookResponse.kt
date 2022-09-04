@@ -3,6 +3,7 @@ package com.example.bookretriever.models.json
 import com.google.gson.annotations.SerializedName
 
 data class BookResponse(
+    @SerializedName("works", alternate = ["docs"])
     val works: List<DocsItemBook>,
 )
 

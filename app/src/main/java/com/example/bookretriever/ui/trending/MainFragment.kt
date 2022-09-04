@@ -56,6 +56,7 @@ class MainFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.bookFlow.collect {
+                println(it)
                 pagingAdapter.submitData(it)
             }
         }
