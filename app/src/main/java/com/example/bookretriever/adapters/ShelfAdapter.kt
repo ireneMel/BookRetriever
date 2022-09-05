@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookretriever.databinding.ShelfItemBinding
 import com.example.bookretriever.models.Book
+import com.example.bookretriever.utils.Constants.getGlide
 
 class ShelfAdapter : ListAdapter<Book, ShelfAdapter.BookViewHolder>(BookItemDiffCallBack()) {
 
@@ -37,7 +38,7 @@ class ShelfAdapter : ListAdapter<Book, ShelfAdapter.BookViewHolder>(BookItemDiff
             bookTitle.text = item.title
             bookAuthor.text = item.author
 
-            Constant.getGlide(bookItemContainer, item.coverUrl).into(bookImage)
+            getGlide(bookItemContainer, item.coverUrl).into(bookImage)
         }
     }
 }

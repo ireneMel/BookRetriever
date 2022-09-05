@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bookretriever.UIState
 import com.example.bookretriever.databinding.BookItemBinding
 import com.example.bookretriever.models.UIBook
+import com.example.bookretriever.utils.Constants.getGlide
 
 class BookPagingAdapter :
     PagingDataAdapter<UIBook, BookPagingAdapter.BookViewHolder>(BookItemDiffCallBack()) {
@@ -52,7 +53,7 @@ class BookPagingAdapter :
                 favourite.setUIState(if (item.isLiked()) UIState.Like else UIState.Unlike, true)
             }
 
-            Constant.getGlide(bookItemContainer, item.coverUrl).into(bookImage)
+            getGlide(bookItemContainer, item.coverUrl).into(bookImage)
         }
     }
 
