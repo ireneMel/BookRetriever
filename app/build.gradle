@@ -86,6 +86,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.3.1')
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth-ktx'
+    //realtime database
+    implementation 'com.google.firebase:firebase-database-ktx'
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.13.2'
@@ -112,4 +114,7 @@ dependencies {
     //lottie animation
     implementation "com.airbnb.android:lottie:5.2.0"
 
+    //cropping images
+    implementation 'com.github.krokyze:ucropnedit:2.2.8'
+//    implementation 'com.github.yalantis:ucrop:2.2.8-native'
 }
