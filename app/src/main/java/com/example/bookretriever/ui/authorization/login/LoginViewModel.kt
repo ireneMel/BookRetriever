@@ -1,5 +1,6 @@
 package com.example.bookretriever.ui.authorization.login
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,7 +23,6 @@ sealed class LoginErrorEvent {
 }
 
 class LoginViewModel : ViewModel() {
-    private val TAG = "Login ViewModel"
     private val repository = UsersRepository()
 
     private val loginErrorEventChannel = Channel<LoginErrorEvent>()
@@ -56,10 +56,8 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             _state.value = LoginUserState.Loading
             repository.logInUser(email, password)
-            Log.d(TAG, "login: logged in")
         }
     }
 
     fun resetPassword(resetMail: String): Boolean = repository.resetPassword(resetMail)
-
 }

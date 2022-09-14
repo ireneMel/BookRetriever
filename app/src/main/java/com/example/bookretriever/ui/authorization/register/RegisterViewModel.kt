@@ -1,5 +1,6 @@
 package com.example.bookretriever.ui.authorization.register
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookretriever.repositories.UsersRepository
@@ -30,4 +31,6 @@ class RegisterViewModel : ViewModel() {
             }
         }
     }
+
+
 }

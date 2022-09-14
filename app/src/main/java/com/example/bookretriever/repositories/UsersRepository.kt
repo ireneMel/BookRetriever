@@ -34,10 +34,7 @@ class UsersRepository {
     val auth = _auth
 
     //create instance of database reference to access firebase's realtime database
-    val databaseReference = Firebase.database.reference
-
-//    var storage: FirebaseStorage = FirebaseStorage.getInstance()
-//    val storageReference = storage.reference
+    private val databaseReference = Firebase.database.reference
 
     var isUserVerified = false
         private set
@@ -113,6 +110,7 @@ class UsersRepository {
 
                 } else {
                     Log.d(TAG, "Register state: failed\nException: ${task.exception}")
+//                    _userState.value = UserState.Error("No user exists")
                     it.resume(false)
                 }
             }
@@ -164,14 +162,6 @@ class UsersRepository {
             .addOnFailureListener {
                 println(it.message)
             }
-
-//        val reference = storageReference.child("images/*" + _auth.currentUser?.uid)
-//        reference.putFile(photoUrl).addOnSuccessListener {
-//            println("Image uploaded")
-//        }.addOnFailureListener {
-//            println("Uploading image failed: ${it.message}")
-//        }
-
     }
 
     fun signOut() {

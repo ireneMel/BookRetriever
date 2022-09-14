@@ -9,13 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookretriever.R
-import com.example.bookretriever.adapters.BookAdapter
 import com.example.bookretriever.adapters.ShelfAdapter
 import com.example.bookretriever.databinding.FragmentShelveBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ShelfFragment : Fragment() {

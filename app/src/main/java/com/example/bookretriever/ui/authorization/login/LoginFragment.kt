@@ -18,9 +18,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
 class LoginFragment : GeneralFragment() {
-
-    private val TAG = "Login Fragment"
-
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
 
@@ -80,9 +77,8 @@ class LoginFragment : GeneralFragment() {
         val password = binding.passwordLogin.text.toString().trim()
 
         if (isDataValid(email, password)) {
-            Log.d(TAG, "loginUser: data valid")
             viewModel.login(email, password)
-            Log.d(TAG, "loginUser: state = ${viewModel.state.value}")
+            Log.d("LoginFragment", "loginUser: state = ${viewModel.state.value}")
         }
     }
 
@@ -116,6 +112,4 @@ class LoginFragment : GeneralFragment() {
                 else makeToast("Error occurred. Could not send reset link.")
             }.setNegativeButton("Close") { _, _ -> }.create().show()
     }
-
-
 }

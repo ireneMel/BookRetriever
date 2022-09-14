@@ -25,7 +25,8 @@ class QueryBookPagingSource @Inject constructor(
 
             val position = params.key ?: 1
             println("Load $query, size = ${params.loadSize}, pos = $position")
-            val response = repository.getBookByQuery(query, position, params.loadSize) ?: emptyList()
+            val response =
+                repository.getBookByQuery(query, position, params.loadSize) ?: emptyList()
             println("Loaded $query, size = ${params.loadSize}, pos = $position")
 
             return LoadResult.Page(

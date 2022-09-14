@@ -36,6 +36,7 @@ class RegisterFragment : GeneralFragment() {
             }
         }
 
+
         lifecycleScope.launchWhenStarted {
             viewModel.errorEventFlow.collect { event ->
                 when (event) {
