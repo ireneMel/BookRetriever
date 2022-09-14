@@ -12,26 +12,22 @@ import com.example.bookretriever.repositories.BooksRepository
 import com.example.bookretriever.repositories.ShelfRepository
 import com.example.bookretriever.utils.Constants.QUERY_LIMIT
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val booksRepository: BooksRepository,
     private val favoritesRepository: ShelfRepository
 ) : ViewModel() {
-
-//    private val _uiBookList = MutableStateFlow(emptyList<UIBook>())
-//    val uiBookList = _uiBookList.asStateFlow()
     private val queryFlow = MutableStateFlow<String?>(null)
-    private var prevSource: PagingSource<*,*>? = null
+    private var prevSource: PagingSource<*, *>? = null
+
     val bookFlow = queryFlow.flatMapLatest {
-//        getBooksByQuery("harry")
         prevSource?.invalidate()
-        if (it == null) getTrendingBooks() else getBooksByQuery(it)
+        if (it == null) getTrendingBooks()
+        else getBooksByQuery(it)
     }
 
     fun querySubmitted(q: String) {
@@ -39,7 +35,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun getTrendingBooks(): Flow<PagingData<UIBook>> {
-        return Pager(
+        val pager = Pager(
             PagingConfig(
                 pageSize = QUERY_LIMIT,
                 prefetchDistance = 10,
@@ -53,11 +49,11 @@ class MainViewModel @Inject constructor(
         }.flow.map {
             mapPagingData(it)
         }.cachedIn(viewModelScope)
+        return pager
     }
 
     private fun getBooksByQuery(query: String): Flow<PagingData<UIBook>> {
-        println(query)
-        return Pager(
+        val pager = Pager(
             PagingConfig(
                 pageSize = QUERY_LIMIT,
                 prefetchDistance = 10,
@@ -71,6 +67,7 @@ class MainViewModel @Inject constructor(
         }.flow.map {
             mapPagingData(it)
         }.cachedIn(viewModelScope)
+        return pager
     }
 
     private suspend fun mapPagingData(data: PagingData<Book>): PagingData<UIBook> {
@@ -94,25 +91,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private suspend fun mapResponseToUI(response: List<Book>) =
-        response.map { book ->
-            book.isLiked = favoritesRepository.getBook(book.title)?.isLiked ?: false
-            UIBook(
-                book.title,
-                book.author,
-                book.coverI,
-                {
-                    Log.d("MainViewModel", "mapResponseToUI: clicked")
-                    addToFavorites(book)
-                },
-                {
-                    Log.d("MainViewModel", "mapResponseToUI: long clicked")
-                    showDetailedInfo(book)
-                },
-                book::isLiked
-            )
-        }
-
     private fun showDetailedInfo(book: Book) {
 
     }
@@ -126,23 +104,6 @@ class MainViewModel @Inject constructor(
                 favoritesRepository.delete(book)
         }
     }
-
-//    fun fetchBooksByName(query: String) {
-//        viewModelScope.launch {
-//            val response = client.getBookByTitle(query, "everything")
-//            if (response.isSuccessful) {
-//                val bookResponse: BookResponse = response.body() ?: return@launch
-//                list.value = bookResponse.works.map {
-//                    BookEntity(
-//                        it?.isbn,
-//                        it?.title,
-//                        it.authorName?.get(0),
-//                        it?.cover_i
-//                    )
-//                }
-//            }
-//        }
-//    }
 
 //    class Factory(private val booksRepository: BooksRepository) : ViewModelProvider.Factory{
 //        override fun <T : ViewModel> create(modelClass: Class<T>): T {
