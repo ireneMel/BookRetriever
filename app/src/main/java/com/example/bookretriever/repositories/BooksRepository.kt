@@ -22,25 +22,25 @@ class BooksRepository @Inject constructor(
     }
 
     suspend fun getTrendingBooks(page: Int, pageSize: Int): BookEntity? = withContext(Dispatchers.IO){
-        val first: BookEntity? = bookDao.getTrendingBooks().first().firstOrNull()
-        val isCacheExpired = System.currentTimeMillis() - (first?.timeInMillis ?: 0) > DELTA
-        if (first == null || isCacheExpired) {
-            bookDao.deleteAll()
-            //if there is no appropriate data in the database - the request to the server is sent
-            //retrieved data has to be saved
-            val response = retrofit.getTrendingBooks(page, pageSize)
+            val first: BookEntity? = bookDao.getTrendingBooks().first().firstOrNull()
+            val isCacheExpired = System.currentTimeMillis() - (first?.timeInMillis ?: 0) > DELTA
+            if (first == null || isCacheExpired) {
+                bookDao.deleteAll()
+                //if there is no appropriate data in the database - the request to the server is sent
+                //retrieved data has to be saved
+                val response = retrofit.getTrendingBooks(page, pageSize)
 
-            if (!response.isSuccessful) return@withContext null
-            val bookResponse = response.body() ?: return@withContext null
-            val list = mapResponse(bookResponse)
-            val finalEntity = BookEntity(System.currentTimeMillis(), list)
-            bookDao.insert(finalEntity)
-            return@withContext finalEntity
-        } else {
-            //if database contains needed data - get and show it
-            return@withContext first
+                if (!response.isSuccessful) return@withContext null
+                val bookResponse = response.body() ?: return@withContext null
+                val list = mapResponse(bookResponse)
+                val finalEntity = BookEntity(System.currentTimeMillis(), list)
+                bookDao.insert(finalEntity)
+                return@withContext finalEntity
+            } else {
+                //if database contains needed data - get and show it
+                return@withContext first
+            }
         }
-    }
 
     private fun listToString(authors: List<String>?): String {
         var res = ""
