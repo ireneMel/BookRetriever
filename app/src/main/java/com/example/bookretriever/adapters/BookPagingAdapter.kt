@@ -43,9 +43,9 @@ class BookPagingAdapter :
 
             favourite.setUIState(if (item.isLiked()) UIState.Like else UIState.Unlike, false)
 
-            detailedInfoButton.setOnClickListener {
-                item.onLongClick()
-            }
+//            detailedInfoButton.setOnClickListener {
+//                item.onLongClick()
+//            }
 
             bookItemContainer.setOnClickListener {
                 Log.d("Book Adapter", "onBindViewHolder: clicked")
