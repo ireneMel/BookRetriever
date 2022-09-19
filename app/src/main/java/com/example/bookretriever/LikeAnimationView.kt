@@ -3,15 +3,21 @@ package com.example.bookretriever
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
+import android.util.TypedValue
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.withScale
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
-import com.example.bookretriever.R
+import com.example.bookretriever.utils.ExtensionFunctions.getThemeColor
 import com.google.android.material.math.MathUtils.lerp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,8 +51,12 @@ class LikeAnimationView @JvmOverloads constructor(
     }
 
     private val srcInMode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-    private var fromBmColor: Int = Color.parseColor("#373c68")
-    private var toBmColor: Int = Color.parseColor("#f6507d")
+
+    private var fromBmColor: Int =
+        context.getColorFromAttr(com.google.android.material.R.attr.colorError) //"#373c68"
+    private var toBmColor: Int =
+        context.getColorFromAttr(com.google.android.material.R.attr.colorOnError)
+    //Color.parseColor("#f6507d")
 
     private val argbEvaluator =
         ArgbEvaluator() //performs type interpolation between integer values that represent ARGB colors
@@ -56,7 +66,18 @@ class LikeAnimationView @JvmOverloads constructor(
         color = argbEvaluator.evaluate(bgFraction, fromBmColor, toBmColor) as Int
     }
 
+    @ColorInt
+    fun Context.getColorFromAttr(
+        @AttrRes attrColor: Int,
+        typedValue: TypedValue = TypedValue(),
+        resolveRefs: Boolean = true
+    ): Int {
+        theme.resolveAttribute(attrColor, typedValue, resolveRefs)
+        return typedValue.data
+    }
+
     private fun tintBitmap() {
+
         // change to src in
         paint.xfermode = srcInMode
         drawableCanvas.drawRect(
@@ -71,12 +92,17 @@ class LikeAnimationView @JvmOverloads constructor(
 
     private fun updateColor(uiState: UIState) {
         toBmColor = if (uiState == UIState.Unlike) {
-            Color.parseColor("#373c68")
-        } else Color.parseColor("#f6507d")
+            context.getThemeColor(com.google.android.material.R.attr.colorOnError)
+//            context.getColorFromAttr(com.google.android.material.R.attr.colorOnError)
+//            Color.parseColor("#373c68")
+        } else context.getColorFromAttr(com.google.android.material.R.attr.colorError)
 
         fromBmColor = if (_uiState.value == UIState.Unlike) {
-            Color.parseColor("#373c68")
-        } else Color.parseColor("#f6507d")
+            context.getThemeColor(com.google.android.material.R.attr.colorOnError)
+//            context.getColorFromAttr(com.google.android.material.R.attr.colorOnError)
+//            Color.parseColor("#373c68")
+        } else context.getColorFromAttr(com.google.android.material.R.attr.colorError)
+        //Color.parseColor("#f6507d")
 
     }
 
