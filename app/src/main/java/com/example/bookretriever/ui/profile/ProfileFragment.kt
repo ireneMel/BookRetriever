@@ -12,14 +12,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.bookretriever.R
 import com.example.bookretriever.databinding.FragmentProfileBinding
 import com.example.bookretriever.repositories.UsersRepository
+import com.example.bookretriever.utils.ExtensionFunctions.setActionBarText
 import com.yalantis.ucrop.UCrop
 import java.io.File
 
@@ -30,6 +30,8 @@ class ProfileFragment : Fragment() {
     private val repository = UsersRepository()
     private lateinit var outputUri: Uri
 
+    private lateinit var profilePictureFile: File
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,17 +39,19 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentProfileBinding.bind(view)
+
+        activity?.setActionBarText(getString(R.string.your_profile))
 
         requireContext().cacheDir.mkdirs()
 //        requireContext().cacheDir.deleteRecursively()
 
         with(binding) {
-            val avatar = File(requireContext().cacheDir, "avatar.png")
-            Glide.with(requireContext())
-                .load(avatar).diskCacheStrategy(DiskCacheStrategy.NONE).into(roundedImageView)
+            profilePictureFile = File(requireContext().cacheDir, "avatar.png")
+            binding.roundedImageView.setImageURI(profilePictureFile.toUri())
 
             email.setText(repository.auth.currentUser?.email.toString())
             logout.setOnClickListener {
@@ -61,7 +65,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
     private fun changeProfilePicture() {
         getImageToCrop.launch("image/*")
     }
@@ -70,7 +73,6 @@ class ProfileFragment : Fragment() {
         override fun createIntent(context: Context, input: List<Uri>): Intent {
             val inputUri = input[0]
             val outputUri = input[1]
-
             val uCrop = UCrop.of(inputUri, outputUri)
                 .withAspectRatio(5f, 5f)
                 .withMaxResultSize(800, 800)
@@ -85,12 +87,12 @@ class ProfileFragment : Fragment() {
     @SuppressLint("NewApi")
     private val cropImage = registerForActivityResult(uCropContract) { uri ->
         binding.roundedImageView.setImageURI(uri)
-
         val avatar = File(requireContext().cacheDir, "avatar.png")
-
         ImageDecoder.decodeBitmap(
             ImageDecoder.createSource(requireContext().contentResolver, uri)
         ).compress(Bitmap.CompressFormat.PNG, 100, avatar.outputStream())
+        //delete previous file
+        uri.toFile().delete()
     }
 
     private val getImageToCrop =
