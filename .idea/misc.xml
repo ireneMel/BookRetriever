@@ -4,17 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/drawable/bottom_nav_color.xml" value="0.188" />
+        <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/drawable/bottom_nav_icon.xml" value="0.106" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/drawable/button_1.xml" value="0.1" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/drawable/ic_favorite_unpressed.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/drawable/ic_person.xml" value="0.1295" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/drawable/slide_in.xml" value="0.109" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/book_item.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/book_item.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/fragment_cropper.xml" value="0.19722222222222222" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/fragment_like_animation.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/fragment_login.xml" value="0.4" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/fragment_main.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/fragment_personal.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/fragment_profile.xml" value="0.12" />
+        <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/fragment_register.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/fragment_shelve.xml" value="0.536" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/like_animation.xml" value="0.152" />
@@ -23,6 +26,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/layout/shelf_item.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/menu/nav_menu.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/AndroidStudio/pet-projects/BookRetriever/app/src/main/res/menu/no_connection_menu.xml" value="0.176" />
       </map>
     </option>
   </component>
