@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bookretriever.R
 import com.example.bookretriever.adapters.BookPagingAdapter
 import com.example.bookretriever.adapters.LoadStateAdapter
 import com.example.bookretriever.databinding.FragmentMainBinding
 import com.example.bookretriever.repositories.BooksRepository
+import com.example.bookretriever.utils.ExtensionFunctions.setActionBarText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -25,7 +26,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
-
     private val viewModel: MainViewModel by viewModels()
     private val pagingAdapter = BookPagingAdapter()
     private var concatAdapter = pagingAdapter.withLoadStateFooter(
@@ -35,6 +35,7 @@ class MainFragment : Fragment() {
 
     @Inject
     lateinit var repository: BooksRepository
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +49,8 @@ class MainFragment : Fragment() {
         binding = FragmentMainBinding.bind(view)
         initRecycler()
 
+        activity?.setActionBarText("Book retriever")
+
         lifecycleScope.launchWhenStarted {
             pagingAdapter.loadStateFlow.onEach {
                 println(it.refresh)
@@ -56,17 +59,19 @@ class MainFragment : Fragment() {
             }.collect()
         }
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.querySubmitted(query ?: return false)
-                binding.searchView.clearFocus()
-                return true
-            }
+        binding.searchView.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    //Check if network is connected
+                    viewModel.querySubmitted(query ?: return false)
+                    binding.searchView.clearFocus()
+                    return true
+                }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            })
 
         lifecycleScope.launchWhenStarted {
             viewModel.bookFlow.collect {
@@ -78,10 +83,13 @@ class MainFragment : Fragment() {
 
     private fun initRecycler() {
         binding.recyclerviewBooks.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = gridLayoutManager//LinearLayoutManager(requireContext())
             adapter = concatAdapter
         }
     }
+
+
 }
 
 /*
