@@ -1,6 +1,22 @@
 <resources>
-    <string name="app_name">BookRetriever</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Book retriever</string>
     <string name="email_has_not_been_verified">Email has not been verified</string>
     <string name="retry">Retry</string>
+    <string name="profile_image">Profile image</string>
+    <string name="sample_email">sample@email.com</string>
+    <string name="logout">Logout</string>
+    <string name="your_profile">Your profile</string>
+    <string name="verify">Verify</string>
+    <string name="no_connection">No network connection</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in_caps">LOG IN</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="register">Register</string>
+    <string name="already_have_account">Already have an account? Login here</string>
+    <string name="register_caps">REGISTER</string>
+    <string name="name">Name</string>
+    <string name="no_favourite_books_yet">No favourite books yet</string>
 </resources>
