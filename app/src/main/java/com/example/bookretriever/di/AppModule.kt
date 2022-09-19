@@ -1,10 +1,14 @@
 package com.example.bookretriever.di
 
+import android.content.Context
 import com.example.bookretriever.net.IBookClient
 import com.example.bookretriever.utils.Constants
+import com.example.bookretriever.utils.internet_connectivity.ConnectivityObserver
+import com.example.bookretriever.utils.internet_connectivity.NetworkConnectivityObserver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -25,6 +29,14 @@ object AppModule {
             .client(OkHttpClient.Builder().build())
             .build()
         return retrofit.create(IBookClient::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkManager(
+        @ApplicationContext context: Context
+    ): ConnectivityObserver {
+        return NetworkConnectivityObserver(context)
     }
 
 }
