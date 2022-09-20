@@ -21,7 +21,8 @@ class BooksRepository @Inject constructor(
         return mapResponse(response.body() ?: return emptyList())
     }
 
-    suspend fun getTrendingBooks(page: Int, pageSize: Int): BookEntity? = withContext(Dispatchers.IO){
+    suspend fun getTrendingBooks(page: Int, pageSize: Int): BookEntity? =
+        withContext(Dispatchers.IO) {
             val first: BookEntity? = bookDao.getTrendingBooks().first().firstOrNull()
             val isCacheExpired = System.currentTimeMillis() - (first?.timeInMillis ?: 0) > DELTA
             if (first == null || isCacheExpired) {
@@ -42,16 +43,6 @@ class BooksRepository @Inject constructor(
             }
         }
 
-    private fun listToString(authors: List<String>?): String {
-        var res = ""
-        if (authors == null) return res
-        for (author in 0..authors.size - 2) {
-            res += "$author, "
-        }
-        res += authors[authors.size - 1]
-        return res
-    }
-
     private fun mapResponse(bookResponse: BookResponse): List<Book> = bookResponse.works.map {
         Book(
 //                    it.isbn,
@@ -62,5 +53,10 @@ class BooksRepository @Inject constructor(
             false,
 //                    ""
         )
+    }
+
+    private fun listToString(authors: List<String>?): String {
+        if (authors == null) return ""
+        return authors.joinToString(", ")
     }
 }
