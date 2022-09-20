@@ -69,20 +69,20 @@ class RegisterFragment : GeneralFragment() {
     }
 
     private fun registerUser() {
-        val name = binding.nameRegister.text.toString().trim()
+//        val name = binding.nameRegister.text.toString().trim()
         val email = binding.emailRegister.text.toString().trim()
         val password = binding.passwordRegister.text.toString().trim()
 
-        if (dataValid(name, email, password)) register()
+        if (dataValid("", email, password)) register()
     }
 
     private fun register() {
-        val name = binding.nameRegister.text.toString().trim()
+//        val name = binding.nameRegister.text.toString().trim()
         val email = binding.emailRegister.text.toString().trim()
         val password = binding.passwordRegister.text.toString().trim()
 
         binding.progressbarLogin.visibility = View.VISIBLE
-        viewModel.register(name, email, password)
+        viewModel.register("", email, password)
 
         if (viewModel.isComplete.value) {
             makeToast("You have been successfully registered")
@@ -91,11 +91,11 @@ class RegisterFragment : GeneralFragment() {
 
     private fun dataValid(name: String, email: String, password: String): Boolean {
         with(binding) {
-            if (name.isEmpty()) {
-                nameRegister.error = "Name is required"
-                nameRegister.requestFocus()
-                return false
-            }
+//            if (name.isEmpty()) {
+//                nameRegister.error = "Name is required"
+//                nameRegister.requestFocus()
+//                return false
+//            }
             if (email.isEmpty()) {
                 emailRegister.error = "Email is required"
                 emailRegister.requestFocus()
